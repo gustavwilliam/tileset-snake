@@ -8,37 +8,58 @@
     <title>TileSnake</title>
   </head>
   <body class="bg-gray-900">
-    <div class="w-full md:w-1/2 bg-gray-800 mx-auto p-4 m-4 md:p-8 rounded-3xl">
-      <div class="mb-4 md:mb-8 flex items-stretch justify-between">
-        <div>
-          <h1 class="text-2xl font-bold text-white flex items-center">
-            TileSnake
-          </h1>
+    <div
+      class="relative w-full md:w-1/2 bg-gray-800 mx-auto p-4 m-4 md:p-8 rounded-3xl"
+    >
+      <div
+        id="start-screen"
+        class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-4"
+      >
+        <div
+          id="start-message"
+          class="bg-gray-700 text-white p-4 rounded-lg hidden"
+        >
+          Welcome to TileSnake!
         </div>
-        <div class="flex gap-2">
-          <select
-            id="tileset-selector"
-            class="p-3 bg-gray-700 rounded-lg text-white appearance-none"
-          >
-            <option value="lemon_beard">Lemon Beard</option>
-            <option value="pydis_snake">PyDis Snake</option>
-          </select>
-          <div class="p-3 bg-gray-700 rounded-lg text-white">
-            <img
-              src="./assets/crown.svg"
-              alt="Crown"
-              class="inline-block w-6 mr-1"
-            />
-            <span id="high-score">0</span>
+        <button
+          id="start-button"
+          class="bg-gray-700 text-white p-4 rounded-lg hover:-translate-y-1 transition"
+        >
+          Click here or press SPACE to start
+        </button>
+      </div>
+      <div>
+        <div class="mb-4 md:mb-8 flex items-stretch justify-between">
+          <div>
+            <h1 class="text-2xl font-bold text-white flex items-center">
+              TileSnake
+            </h1>
           </div>
-          <div class="p-3 bg-gray-700 rounded-lg text-white">
-            <img
-              src="./tilesets/lemon_beard/apple.svg"
-              alt="Apple"
-              class="inline-block w-6 mr-1"
-              id="apple-icon"
-            />
-            <span id="game-score">0</span>
+          <div class="flex gap-2">
+            <select
+              id="tileset-selector"
+              class="p-3 bg-gray-700 rounded-lg text-white appearance-none"
+            >
+              <option value="lemon_beard">Lemon Beard</option>
+              <option value="pydis_snake">PyDis Snake</option>
+            </select>
+            <div class="p-3 bg-gray-700 rounded-lg text-white">
+              <img
+                src="./assets/crown.svg"
+                alt="Crown"
+                class="inline-block w-6 mr-1"
+              />
+              <span id="high-score">0</span>
+            </div>
+            <div class="p-3 bg-gray-700 rounded-lg text-white">
+              <img
+                src="./tilesets/lemon_beard/apple.svg"
+                alt="Apple"
+                class="inline-block w-6 mr-1"
+                id="apple-icon"
+              />
+              <span id="game-score">0</span>
+            </div>
           </div>
         </div>
       </div>

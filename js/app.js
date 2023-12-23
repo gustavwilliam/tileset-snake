@@ -71,6 +71,11 @@ class Snake {
     ) {
       e.preventDefault(); // Don't scroll the page when using arrow keys or space
     }
+    if (e.key === " ") {
+      if (gameHasStarted) return;
+      startGame();
+      return;
+    }
     const key = e.key;
     const newDirection = this.nextDirectionFromKey(key);
     if (newDirection === null) return;
@@ -90,10 +95,12 @@ function gameOver() {
     highScore = snake.score();
     highScoreLabel.innerText = highScore;
     localStorage.setItem("highScore", highScore);
-    alert(`New High Score! Well done.`);
+    localStorage.setItem("deathMessage", `New High Score! Well done.`);
+    window.location.reload();
     return;
   }
-  alert(`Game Over! Score: ${snake.score()}`);
+  localStorage.setItem("deathMessage", `Game Over!\nScore: ${snake.score()}`);
+  window.location.reload();
 }
 
 function tick(game, snake) {
@@ -108,6 +115,14 @@ function tick(game, snake) {
   game.snake = snake.body;
   game.render();
   gameScoreLabel.innerText = snake.score();
+}
+
+function startGame() {
+  if (gameHasStarted) return;
+  gameTickId = setInterval(() => tick(game, snake), 160);
+  startButton.disabled = true;
+  startScreen.style.display = "none";
+  gameHasStarted = true;
 }
 
 // Swipe detection
@@ -161,6 +176,7 @@ function handleTouchMove(evt) {
 }
 
 // Initialize and run
+let gameHasStarted = false;
 const game = document.getElementById("game");
 const snake = new Snake(
   game.getAttribute("game-width"),
@@ -170,6 +186,9 @@ game.apple = snake.getNextApple();
 const tilesetSelector = document.getElementById("tileset-selector");
 const gameScoreLabel = document.getElementById("game-score");
 const highScoreLabel = document.getElementById("high-score");
+const startScreen = document.getElementById("start-screen");
+const startButton = document.getElementById("start-button");
+const startMessage = document.getElementById("start-message");
 document.addEventListener("keydown", (e) => snake.handleKeyPress(e));
 tilesetSelector.onchange = (e) => {
   game.setAttribute("tileset", e.target.value);
@@ -182,4 +201,10 @@ if (localStorage.getItem("tileset")) {
 }
 let highScore = localStorage.getItem("highScore") || 0;
 highScoreLabel.innerText = highScore;
-const gameTickId = setInterval(() => tick(game, snake), 160);
+if (localStorage.getItem("deathMessage")) {
+  startMessage.innerText = localStorage.getItem("deathMessage");
+  startMessage.classList.remove("hidden");
+  localStorage.removeItem("deathMessage");
+}
+let gameTickId = null;
+startButton.onclick = startGame;
