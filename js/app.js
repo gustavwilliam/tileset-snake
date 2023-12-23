@@ -46,10 +46,10 @@ class Snake {
   move() {
     this.direction = this.faceDirection;
     const newHead = this.getNextPoint();
-    if (this.pointCollides(newHead)) throw new Error("Game Over");
     if (this.pointCollides(game.apple)) {
       game.apple = snake.getNextApple();
     } else {
+      if (this.pointCollides(newHead)) throw new Error("Game Over");
       this.body.shift();
     }
     this.body.push(newHead);
