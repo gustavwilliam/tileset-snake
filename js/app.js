@@ -91,15 +91,14 @@ class Snake {
 
 function gameOver() {
   clearInterval(gameTickId);
-  if (snake.score() > highScore) {
-    highScore = snake.score();
-    highScoreLabel.innerText = highScore;
-    localStorage.setItem("highScore", highScore);
-    localStorage.setItem("deathMessage", `New High Score! Well done.`);
-    window.location.reload();
-    return;
-  }
-  localStorage.setItem("deathMessage", `Game Over!\nScore: ${snake.score()}`);
+  localStorage.setItem("lastScore", snake.score());
+  let allScores = JSON.parse(localStorage.getItem("allScores")) || [];
+  allScores.push({
+    score: snake.score(),
+    date: new Date().toISOString().split("T")[0],
+  });
+  localStorage.setItem("highScore", Math.max(snake.score(), highScore));
+  localStorage.setItem("allScores", JSON.stringify(allScores));
   window.location.reload();
 }
 
@@ -188,7 +187,7 @@ const gameScoreLabel = document.getElementById("game-score");
 const highScoreLabel = document.getElementById("high-score");
 const startScreen = document.getElementById("start-screen");
 const startButton = document.getElementById("start-button");
-const startMessage = document.getElementById("start-message");
+const gameLeaderboard = document.getElementById("game-leaderboard");
 document.addEventListener("keydown", (e) => snake.handleKeyPress(e));
 tilesetSelector.onchange = (e) => {
   game.setAttribute("tileset", e.target.value);
@@ -201,10 +200,5 @@ if (localStorage.getItem("tileset")) {
 }
 let highScore = localStorage.getItem("highScore") || 0;
 highScoreLabel.innerText = highScore;
-if (localStorage.getItem("deathMessage")) {
-  startMessage.innerText = localStorage.getItem("deathMessage");
-  startMessage.classList.remove("hidden");
-  localStorage.removeItem("deathMessage");
-}
 let gameTickId = null;
 startButton.onclick = startGame;
