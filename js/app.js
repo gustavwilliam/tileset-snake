@@ -81,6 +81,7 @@ class Snake {
       startGame();
       return;
     }
+    if (!gameHasStarted) return;
     const key = e.key;
     const newDirection = this.nextDirectionFromKey(key);
     if (newDirection === null) return;
