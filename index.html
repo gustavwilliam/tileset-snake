@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/canvas.css" />
+    <title>TileSnake</title>
+  </head>
+  <body class="bg-gray-900">
+    <div class="w-full md:w-1/2 bg-gray-800 mx-auto p-4 m-4 md:p-8 rounded-3xl">
+      <div class="mb-4 md:mb-8 flex items-stretch justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-white flex items-center">
+            TileSnake
+          </h1>
+        </div>
+        <div class="flex gap-2">
+          <select
+            id="tileset-selector"
+            class="p-3 bg-gray-700 rounded-lg text-white"
+          >
+            <option value="lemon_beard">Lemon Beard</option>
+            <option value="pydis_snake">PyDis Snake</option>
+          </select>
+          <div class="p-3 bg-gray-700 rounded-lg text-white">
+            <img
+              src="./assets/crown.svg"
+              alt="Crown"
+              class="inline-block w-6 mr-1"
+            />
+            <span id="high-score">0</span>
+          </div>
+          <div class="p-3 bg-gray-700 rounded-lg text-white">
+            <img
+              src="./tilesets/lemon_beard/apple.svg"
+              alt="Apple"
+              class="inline-block w-6 mr-1"
+              id="apple-icon"
+            />
+            <span id="game-score">0</span>
+          </div>
+        </div>
+      </div>
+      <game-canvas id="game" game-width="15" game-height="10"></game-canvas>
+    </div>
+    <script src="./js/canvas.js"></script>
+    <script src="./js/app.js"></script>
+  </body>
+</html>
