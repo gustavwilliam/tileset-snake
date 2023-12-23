@@ -24,7 +24,7 @@ class GameLeaderboard extends HTMLElement {
         return {
           score: score.score,
           date: new Date(score.date).toLocaleDateString(),
-          id: score.id,
+          id: score.id || 0,
         };
       });
   }
@@ -58,8 +58,14 @@ class GameLeaderboard extends HTMLElement {
 
     for (const score of this.highScores) {
       const li = this.getScoreLi(score.score, score.date);
-      console.log(score.id, localStorage.getItem("lastGameId"));
-      if (score.id.toString() === localStorage.getItem("lastGameId")) {
+      console.log(
+        score.id ? score.id.toString() : undefined,
+        localStorage.getItem("lastGameId")
+      );
+      if (
+        (score.id ? score.id.toString() : undefined) ===
+        localStorage.getItem("lastGameId")
+      ) {
         li.classList.add("text-yellow-500");
         li.children[1].innerText = "Now";
       }

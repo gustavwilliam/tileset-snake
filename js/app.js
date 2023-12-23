@@ -93,11 +93,12 @@ function gameOver() {
   clearInterval(gameTickId);
   localStorage.setItem("lastScore", snake.score());
   localStorage.setItem("lastGameId", gameId);
+  localStorage.setItem("previousGameId", gameId);
   let allScores = JSON.parse(localStorage.getItem("allScores")) || [];
   allScores.push({
     score: snake.score(),
     date: new Date(),
-    id: gameId,
+    id: gameId || 0, // GameID = 0 marks as invalid
   });
   localStorage.setItem("highScore", Math.max(snake.score(), highScore));
   localStorage.setItem("allScores", JSON.stringify(allScores));
@@ -205,5 +206,6 @@ highScoreLabel.innerText = highScore;
 gameScoreLabel.innerText = localStorage.getItem("lastScore") || 0;
 let gameTickId = null;
 const lastGameId = localStorage.getItem("lastGameId") || 0;
-const gameId = parseInt(lastGameId) + 1;
+const previousGameId = localStorage.getItem("previousGameId") || 200; // Ensure no collisions with legacy games
+const gameId = parseInt(previousGameId) + 1;
 startButton.onclick = startGame;
