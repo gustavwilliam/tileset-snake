@@ -90,6 +90,8 @@ function gameOver() {
     highScore = snake.score();
     highScoreLabel.innerText = highScore;
     localStorage.setItem("highScore", highScore);
+    alert(`New High Score! Well done.`);
+    return;
   }
   alert(`Game Over! Score: ${snake.score()}`);
 }
@@ -100,6 +102,7 @@ function tick(game, snake) {
   } catch (error) {
     if (error.message === "Game Over") {
       gameOver();
+      return;
     }
   }
   game.snake = snake.body;
@@ -170,8 +173,13 @@ const highScoreLabel = document.getElementById("high-score");
 document.addEventListener("keydown", (e) => snake.handleKeyPress(e));
 tilesetSelector.onchange = (e) => {
   game.setAttribute("tileset", e.target.value);
+  localStorage.setItem("tileset", e.target.value);
   tilesetSelector.blur();
 };
+if (localStorage.getItem("tileset")) {
+  game.setAttribute("tileset", localStorage.getItem("tileset"));
+  tilesetSelector.value = localStorage.getItem("tileset");
+}
 let highScore = localStorage.getItem("highScore") || 0;
 highScoreLabel.innerText = highScore;
 const gameTickId = setInterval(() => tick(game, snake), 160);
