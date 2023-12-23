@@ -11,11 +11,11 @@ class Snake {
     this.faceBufferedDirection = null;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
-    this.bonysPoints = 0;
+    this.bonusPoints = 0;
   }
 
   score() {
-    return this.body.length - 3 + this.bonysPoints;
+    return this.body.length - 3 + this.bonusPoints;
   }
 
   getNextPoint() {
@@ -52,16 +52,17 @@ class Snake {
       this.faceBufferedDirection = null;
     }
     const newHead = this.getNextPoint();
-    if (this.pointCollides(game.apple)) {
-      if (this.pointCollides(newHead)) {
-        this.bonysPoints += 1; // Since body won't grow (+1 length)
-      } else {
-        game.apple = snake.getNextApple();
+    if (this.pointCollides(newHead)) {
+      if (this.pointCollides(game.apple)) {
+        this.bonusPoints += 1;
       }
+      throw new Error("Game Over");
+    }
+    if (this.pointCollides(game.apple)) {
+      game.apple = this.getNextApple();
     } else {
       this.body.shift();
     }
-    if (this.pointCollides(newHead)) throw new Error("Game Over");
     this.body.push(newHead);
   }
 
