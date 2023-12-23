@@ -92,10 +92,12 @@ class Snake {
 function gameOver() {
   clearInterval(gameTickId);
   localStorage.setItem("lastScore", snake.score());
+  localStorage.setItem("lastGameId", gameId);
   let allScores = JSON.parse(localStorage.getItem("allScores")) || [];
   allScores.push({
     score: snake.score(),
-    date: new Date().toISOString().split("T")[0],
+    date: new Date(),
+    id: gameId,
   });
   localStorage.setItem("highScore", Math.max(snake.score(), highScore));
   localStorage.setItem("allScores", JSON.stringify(allScores));
@@ -200,5 +202,8 @@ if (localStorage.getItem("tileset")) {
 }
 let highScore = localStorage.getItem("highScore") || 0;
 highScoreLabel.innerText = highScore;
+gameScoreLabel.innerText = localStorage.getItem("lastScore") || 0;
 let gameTickId = null;
+const lastGameId = localStorage.getItem("lastGameId") || 0;
+const gameId = parseInt(lastGameId) + 1;
 startButton.onclick = startGame;

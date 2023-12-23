@@ -17,18 +17,21 @@ class GameLeaderboard extends HTMLElement {
 
   get highScores() {
     return this.allScores
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
       .sort((a, b) => b.score - a.score)
       .slice(0, 5)
       .map((score) => {
         return {
           score: score.score,
           date: new Date(score.date).toLocaleDateString(),
+          id: score.id,
         };
       });
   }
 
   unsetLastScore() {
     localStorage.removeItem("lastScore");
+    localStorage.removeItem("lastGameId");
   }
 
   padded(score) {
@@ -52,19 +55,13 @@ class GameLeaderboard extends HTMLElement {
     this.updateLastScore();
     const ol = document.createElement("ol");
     ol.classList.add("font-mono");
-    let gameMarked = false;
 
     for (const score of this.highScores) {
       const li = this.getScoreLi(score.score, score.date);
-      if (
-        score.score.toString() === this.lastScore &&
-        new Date().toLocaleDateString() ===
-          new Date(score.date).toLocaleDateString() &&
-        !gameMarked
-      ) {
+      console.log(score.id, localStorage.getItem("lastGameId"));
+      if (score.id.toString() === localStorage.getItem("lastGameId")) {
         li.classList.add("text-yellow-500");
         li.children[1].innerText = "Now";
-        gameMarked = true;
       }
       ol.appendChild(li);
     }
