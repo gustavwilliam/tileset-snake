@@ -58,10 +58,6 @@ class GameLeaderboard extends HTMLElement {
 
     for (const score of this.highScores) {
       const li = this.getScoreLi(score.score, score.date);
-      console.log(
-        score.id ? score.id.toString() : undefined,
-        localStorage.getItem("lastGameId")
-      );
       if (
         (score.id ? score.id.toString() : undefined) ===
         localStorage.getItem("lastGameId")
