@@ -8,6 +8,7 @@ class Snake {
     ];
     this.direction = [1, 0];
     this.faceDirection = [1, 0];
+    this.faceBufferedDirection = null;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
   }
@@ -45,6 +46,10 @@ class Snake {
 
   move() {
     this.direction = this.faceDirection;
+    if (this.faceBufferedDirection) {
+      this.faceDirection = this.faceBufferedDirection;
+      this.faceBufferedDirection = null;
+    }
     const newHead = this.getNextPoint();
     if (this.pointCollides(game.apple)) {
       game.apple = snake.getNextApple();
@@ -83,6 +88,9 @@ class Snake {
       this.direction[0] === -newDirection[0] ||
       this.direction[1] === -newDirection[1]
     ) {
+      if (this.faceDirection[0] === 0 && this.direction[0] !== 0) {
+        this.faceBufferedDirection = newDirection;
+      }
       return;
     }
     this.faceDirection = newDirection;
